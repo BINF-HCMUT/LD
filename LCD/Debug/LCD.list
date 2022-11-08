@@ -168,8 +168,8 @@ unsigned char KEYPAD_Read(void){
  80001e4:	f7ff ffb2 	bl	800014c <check_row>
  80001e8:	4603      	mov	r3, r0
  80001ea:	71fb      	strb	r3, [r7, #7]
-	HAL_GPIO_WritePin(GPIOB, C0_Pin, RESET);
- 80001ec:	2200      	movs	r2, #0
+	HAL_GPIO_WritePin(GPIOB, C0_Pin, SET);
+ 80001ec:	2201      	movs	r2, #1
  80001ee:	2101      	movs	r1, #1
  80001f0:	4824      	ldr	r0, [pc, #144]	; (8000284 <KEYPAD_Read+0xbc>)
  80001f2:	f000 fe7c 	bl	8000eee <HAL_GPIO_WritePin>
@@ -190,8 +190,8 @@ unsigned char KEYPAD_Read(void){
  800020c:	f7ff ff9e 	bl	800014c <check_row>
  8000210:	4603      	mov	r3, r0
  8000212:	71fb      	strb	r3, [r7, #7]
-	HAL_GPIO_WritePin(GPIOB, C1_Pin, RESET);
- 8000214:	2200      	movs	r2, #0
+	HAL_GPIO_WritePin(GPIOB, C1_Pin, SET);
+ 8000214:	2201      	movs	r2, #1
  8000216:	2102      	movs	r1, #2
  8000218:	481a      	ldr	r0, [pc, #104]	; (8000284 <KEYPAD_Read+0xbc>)
  800021a:	f000 fe68 	bl	8000eee <HAL_GPIO_WritePin>
@@ -212,8 +212,8 @@ unsigned char KEYPAD_Read(void){
  8000234:	f7ff ff8a 	bl	800014c <check_row>
  8000238:	4603      	mov	r3, r0
  800023a:	71fb      	strb	r3, [r7, #7]
-	HAL_GPIO_WritePin(GPIOB, C2_Pin, RESET);
- 800023c:	2200      	movs	r2, #0
+	HAL_GPIO_WritePin(GPIOB, C2_Pin, SET);
+ 800023c:	2201      	movs	r2, #1
  800023e:	2104      	movs	r1, #4
  8000240:	4810      	ldr	r0, [pc, #64]	; (8000284 <KEYPAD_Read+0xbc>)
  8000242:	f000 fe54 	bl	8000eee <HAL_GPIO_WritePin>
@@ -234,8 +234,8 @@ unsigned char KEYPAD_Read(void){
  800025c:	f7ff ff76 	bl	800014c <check_row>
  8000260:	4603      	mov	r3, r0
  8000262:	71fb      	strb	r3, [r7, #7]
-	HAL_GPIO_WritePin(GPIOB, C3_Pin, RESET);
- 8000264:	2200      	movs	r2, #0
+	HAL_GPIO_WritePin(GPIOB, C3_Pin, SET);
+ 8000264:	2201      	movs	r2, #1
  8000266:	2108      	movs	r1, #8
  8000268:	4806      	ldr	r0, [pc, #24]	; (8000284 <KEYPAD_Read+0xbc>)
  800026a:	f000 fe40 	bl	8000eee <HAL_GPIO_WritePin>
@@ -501,7 +501,7 @@ void LCD_Send_CMD(char cmd){
  8000420:	af00      	add	r7, sp, #0
  8000422:	4603      	mov	r3, r0
  8000424:	71fb      	strb	r3, [r7, #7]
-	HAL_GPIO_WritePin(GPIOA, RS_Pin, 0);
+	HAL_GPIO_WritePin(GPIOA, RS_Pin, 0); // RS = 0 nean send command
  8000426:	2200      	movs	r2, #0
  8000428:	2102      	movs	r1, #2
  800042a:	480a      	ldr	r0, [pc, #40]	; (8000454 <LCD_Send_CMD+0x38>)
@@ -535,7 +535,7 @@ void LCD_Send_Data(char data){
  800045c:	af00      	add	r7, sp, #0
  800045e:	4603      	mov	r3, r0
  8000460:	71fb      	strb	r3, [r7, #7]
-	HAL_GPIO_WritePin(GPIOA, RS_Pin, 1);
+	HAL_GPIO_WritePin(GPIOA, RS_Pin, 1); // RS = 1 send data
  8000462:	2201      	movs	r2, #1
  8000464:	2102      	movs	r1, #2
  8000466:	480a      	ldr	r0, [pc, #40]	; (8000490 <LCD_Send_Data+0x38>)

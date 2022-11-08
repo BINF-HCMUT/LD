@@ -51,14 +51,14 @@ void LCD_Init(){
 }
 
 void LCD_Send_CMD(char cmd){
-	HAL_GPIO_WritePin(GPIOA, RS_Pin, 0); // RS = 0 nean send command
+	HAL_GPIO_WritePin(GPIOA, RS_Pin, 0);
 	send8bitstoLCD(cmd);
 	HAL_GPIO_WritePin(GPIOA, EN_Pin, 0);
 	HAL_GPIO_WritePin(GPIOA, EN_Pin, 1);
 }
 
 void LCD_Send_Data(char data){
-	HAL_GPIO_WritePin(GPIOA, RS_Pin, 1); // RS = 1 send data
+	HAL_GPIO_WritePin(GPIOA, RS_Pin, 1);
 	send8bitstoLCD(data);
 	HAL_GPIO_WritePin(GPIOA, EN_Pin, 0);
 	HAL_GPIO_WritePin(GPIOA, EN_Pin, 1);

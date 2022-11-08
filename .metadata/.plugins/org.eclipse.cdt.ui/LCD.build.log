@@ -1,23 +1,10 @@
-14:23:41 **** Incremental Build of configuration Debug for project LCD ****
+14:50:39 **** Incremental Build of configuration Debug for project LCD ****
 make -j12 all 
-arm-none-eabi-gcc "../Core/Src/4x4keypad.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103x6 -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/4x4keypad.d" -MT"Core/Src/4x4keypad.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/4x4keypad.o"
-arm-none-eabi-gcc -o "LCD.elf" @"objects.list"   -mcpu=cortex-m3 -T"D:\BK\HK221\TKLL\LCD\STM32F103C6UX_FLASH.ld" --specs=nosys.specs -Wl,-Map="LCD.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
-Finished building target: LCD.elf
- 
 arm-none-eabi-size   LCD.elf 
-arm-none-eabi-objdump -h -S  LCD.elf  > "LCD.list"
-arm-none-eabi-objcopy  -O ihex  LCD.elf  "LCD.hex"
-arm-none-eabi-objcopy  -O binary  LCD.elf  "LCD.bin"
    text	   data	    bss	    dec	    hex	filename
    8024	     20	   1668	   9712	   25f0	LCD.elf
 Finished building: default.size.stdout
  
-Finished building: LCD.hex
-Finished building: LCD.bin
- 
- 
-Finished building: LCD.list
- 
 
-14:23:42 Build Finished. 0 errors, 0 warnings. (took 860ms)
+14:50:39 Build Finished. 0 errors, 0 warnings. (took 237ms)
 
