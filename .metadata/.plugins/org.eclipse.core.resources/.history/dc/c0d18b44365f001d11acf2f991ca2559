@@ -103,6 +103,6 @@ void Key_Read(){
 	char text = KEYPAD_Read();
 	if(text != 0xFF){
 		text = KEYPAD_Read();
-		if(text != 0xFF)	LCD_add_To_String(text);
+		if(text != OxFF)	LCD_add_To_String(text);
 	}
 }

@@ -1065,3 +1065,18 @@ C Model Exception: C Model Status [Element 4x4keypad.c does not exist.]
 	at org.eclipse.jface.text.reconciler.AbstractReconciler$BackgroundThread.run(AbstractReconciler.java:210)
 !SUBENTRY 1 org.eclipse.cdt.core 4 969 2022-11-08 13:28:14.142
 !MESSAGE Element 4x4keypad.c does not exist.
+!SESSION 2022-11-08 14:22:12.097 -----------------------------------------------
+eclipse.buildId=Version 1.7.0
+java.version=11.0.10
+java.vendor=AdoptOpenJDK
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=en_US
+Command-line arguments:  -os win32 -ws win32 -arch x86_64
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 4 4 2022-11-08 14:22:20.937
+!MESSAGE CubeMX plugin appears to be active, Log4j initialization might be too late.
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 1 1 2022-11-08 14:22:20.984
+!MESSAGE Log4j initialized with config file D:\BK\HK221\TKLL\.metadata\.log4j.xml
+
+!ENTRY com.st.stm32cube.ide.mcu.ide 1 1 2022-11-08 14:22:26.877
+!MESSAGE Started RMI Server, listening on port 41337
