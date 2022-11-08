@@ -1,0 +1,8 @@
+LCD.c:12:6:LCD_add_To_String	24	static
+LCD.c:21:6:send8bitstoLCD	48	static
+LCD.c:44:6:LCD_Init	8	static
+LCD.c:53:6:LCD_Send_CMD	16	static
+LCD.c:60:6:LCD_Send_Data	16	static
+LCD.c:67:6:LCD_Send_String	24	static
+LCD.c:73:6:LCD_Put_Cur	16	static
+LCD.c:86:6:LCD_Clear	8	static

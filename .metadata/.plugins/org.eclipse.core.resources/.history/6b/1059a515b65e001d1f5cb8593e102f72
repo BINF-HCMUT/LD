@@ -1,0 +1,107 @@
+/*
+ * 4x4keypad.c
+ *
+ *  Created on: Nov 7, 2022
+ *      Author: admin
+ */
+
+
+#include "4x4keypad.h"
+#include "main.h"
+#include "LCD.h"
+
+/* Row pins are output */
+#define SET_ROW_0_HIGH              HAL_GPIO_WritePin(R0_GPIO_Port,R0_Pin,SET)
+#define SET_ROW_1_HIGH              HAL_GPIO_WritePin(R1_GPIO_Port,R1_Pin,SET)
+#define SET_ROW_2_HIGH              HAL_GPIO_WritePin(R2_GPIO_Port,R2_Pin,SET)
+#define SET_ROW_3_HIGH              HAL_GPIO_WritePin(R3_GPIO_Port,R3_Pin,SET)
+#define SET_ROW_0_LOW               HAL_GPIO_WritePin(R0_GPIO_Port,R0_Pin,RESET)
+#define SET_ROW_1_LOW               HAL_GPIO_WritePin(R1_GPIO_Port,R1_Pin,RESET)
+#define SET_ROW_2_LOW               HAL_GPIO_WritePin(R2_GPIO_Port,R2_Pin,RESET)
+#define SET_ROW_3_LOW               HAL_GPIO_WritePin(R3_GPIO_Port,R3_Pin,RESET)
+
+/*Column pin are input, so read the pins */
+#define READ_COLUMN_0               HAL_GPIO_ReadPin(C0_GPIO_Port,C0_Pin)
+#define READ_COLUMN_1               HAL_GPIO_ReadPin(C1_GPIO_Port,C1_Pin)
+#define READ_COLUMN_2               HAL_GPIO_ReadPin(C2_GPIO_Port,C2_Pin)
+#define READ_COLUMN_3               HAL_GPIO_ReadPin(C3_GPIO_Port,C3_Pin)
+
+
+/*
+ 	 R0 C0 = 7, R0 C1 = 8, R0 C2 = 9, R0 C3 = %
+ 	 R1 C0 = 4, R1 C1 = 5, R1 C2 = 6, R1 C3 = x
+ 	 R2 C0 = 1, R2 C1 = 2, R1 C2 = 3, R1 C3 = -
+ 	 R3 C0 = #, R3 C1 = 0, R3 C2 = =, R3 C3 = +
+ */
+
+const char KEY[4][4]={
+		{'7','8','9','%'},
+		{'4','5','6','x'},
+		{'1','2','3','-'},
+		{'#','0','=','+'}
+};
+
+/*For specific row value sent , check all the cloumns*/
+static char Check_Keypad_Column(uint8_t Row){
+	if(!READ_COLUMN_0)                           //If COLUMN_1 is LOW
+	{
+		return Keypad_Button_Values[Row][0];
+	}
+
+	if(!READ_COLUMN_1)                           //If COLUMN_2 is LOW
+	{
+		return Keypad_Button_Values[Row][1];
+	}
+
+    if(!READ_COLUMN_2)                           //If COLUMN_3 is LOW
+	{
+		return Keypad_Button_Values[Row][2];
+	}
+
+	if(!READ_COLUMN_3)                           //If COLUMN_3 is LOW
+	{
+		return Keypad_Button_Values[Row][3];
+	}
+
+	return KEYPAD_NOT_PRESSED;                   //If NO Key is pressed
+}
+
+char KEYPAD_Read(void)
+{
+    char check;
+    /*Set ROW_0 LOW and scan all the columns*/
+	SET_ROW_3_HIGH;
+	SET_ROW_2_HIGH;
+	SET_ROW_1_HIGH;
+    SET_ROW_0_LOW;
+    check = Check_Keypad_Column(0);
+    if(check)
+    	return check;
+
+    /*Set ROW_1 LOW and scan all the columns*/
+    SET_ROW_0_HIGH;
+	SET_ROW_2_HIGH;
+	SET_ROW_3_HIGH;
+    SET_ROW_1_LOW;
+    check = Check_Keypad_Column(1);
+    if(check)
+    	return check;
+    /*Set ROW_2 LOW and scan all the columns*/
+    SET_ROW_0_HIGH;
+	SET_ROW_1_HIGH;
+	SET_ROW_3_HIGH;
+    SET_ROW_2_LOW;
+    check = Check_Keypad_Column(2);
+    if(check)
+    	return check;
+    /*Set ROW_3 LOW and scan all the columns*/
+    SET_ROW_0_HIGH;
+	SET_ROW_1_HIGH;
+	SET_ROW_2_HIGH;
+    SET_ROW_3_LOW;
+    check = Check_Keypad_Column(3);
+    if(check)
+    	return check;
+    /*Key not pressed */
+    return KEYPAD_NOT_PRESSED;
+}

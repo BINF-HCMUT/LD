@@ -1,0 +1,81 @@
+/*
+ * 4x4keypad.c
+ *
+ *  Created on: Nov 7, 2022
+ *      Author: admin
+ */
+
+
+#include "4x4keypad.h"
+#include "main.h"
+#include "LCD.h"
+
+
+/*
+ 	 R0 C0 = 7, R0 C1 = 8, R0 C2 = 9, R0 C3 = %
+ 	 R1 C0 = 4, R1 C1 = 5, R1 C2 = 6, R1 C3 = x
+ 	 R2 C0 = 1, R2 C1 = 2, R1 C2 = 3, R1 C3 = -
+ 	 R3 C0 = #, R3 C1 = 0, R3 C2 = =, R3 C3 = +
+ */
+
+static int8_t KEY[4][4]={
+		{'7','8','9','%'},
+		{'4','5','6','x'},
+		{'1','2','3','-'},
+		{'#','0','=','+'}
+};
+
+uint8_t keyPush(){
+	if( HAL_GPIO_ReadPin(R0_GPIO_Port, R0_Pin) == 0 ||
+		HAL_GPIO_ReadPin(R1_GPIO_Port, R1_Pin) == 0 ||
+		HAL_GPIO_ReadPin(R2_GPIO_Port, R2_Pin) == 0 ||
+		HAL_GPIO_ReadPin(R3_GPIO_Port, R3_Pin) == 0) return 1;
+	else return 0;
+}
+
+void checkCOL(uint8_t col){
+	HAL_GPIO_WritePin(C0_GPIO_Port, C0_Pin, SET);
+	HAL_GPIO_WritePin(C1_GPIO_Port, C1_Pin, SET);
+	HAL_GPIO_WritePin(C2_GPIO_Port, C2_Pin, SET);
+	HAL_GPIO_WritePin(C3_GPIO_Port, C3_Pin, SET);
+
+	if (col == 0)	HAL_GPIO_WritePin(C0_GPIO_Port, C0_Pin, RESET);
+	else if (col == 1)	HAL_GPIO_WritePin(C1_GPIO_Port, C1_Pin, RESET);
+	else if (col == 2)	HAL_GPIO_WritePin(C2_GPIO_Port, C2_Pin, RESET);
+	else if (col == 3)	HAL_GPIO_WritePin(C3_GPIO_Port, C3_Pin, RESET);
+}
+
+uint8_t getKey(){
+	uint8_t i;
+
+	HAL_GPIO_WritePin(C0_GPIO_Port, C0_Pin, RESET);
+	HAL_GPIO_WritePin(C1_GPIO_Port, C1_Pin, RESET);
+	HAL_GPIO_WritePin(C2_GPIO_Port, C2_Pin, RESET);
+	HAL_GPIO_WritePin(C3_GPIO_Port, C3_Pin, RESET);
+
+	if(keyPush() == 1){
+		HAL_Delay(50);
+		if(keyPush() == 1){
+			for(i = 0;i<4;i++){
+				checkCOL(i);
+				if(HAL_GPIO_ReadPin(R0_GPIO_Port, R0_Pin) == 0){
+					HAL_GPIO_ReadPin(R0_GPIO_Port, R0_Pin) == 1;
+					return KEY[0][i];
+				}
+				else if(HAL_GPIO_ReadPin(R1_GPIO_Port, R1_Pin) == 0){
+					HAL_GPIO_ReadPin(R1_GPIO_Port, R1_Pin) == 0;
+					return KEY[1][i];
+				}
+				else if(HAL_GPIO_ReadPin(R2_GPIO_Port, R2_Pin) == 0){
+					HAL_GPIO_ReadPin(R2_GPIO_Port, R2_Pin) == 0;
+					return KEY[2][i];
+				}
+				else if(HAL_GPIO_ReadPin(R3_GPIO_Port, R3_Pin) == 0){
+					HAL_GPIO_ReadPin(R2_GPIO_Port, R2_Pin) == 0;
+					return KEY[3][i];
+				}
+			}
+		}
+	}
+	return 0xFF;
+}

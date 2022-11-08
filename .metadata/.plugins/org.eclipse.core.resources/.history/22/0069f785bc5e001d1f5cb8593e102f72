@@ -1,0 +1,61 @@
+/*
+ * 4x4keypad.c
+ *
+ *  Created on: Nov 7, 2022
+ *      Author: admin
+ */
+
+
+#include "4x4keypad.h"
+#include "main.h"
+#include "LCD.h"
+
+const char KEY[16]={
+		'7','8','9','%',
+		'4','5','6','x',
+		'1','2','3','-',
+		'#','0','=','+'
+};
+
+
+
+
+unsigned char KEYPAD_Read(void)
+{
+    char check;
+    /*Set ROW_0 LOW and scan all the columns*/
+	SET_ROW_3_HIGH;
+	SET_ROW_2_HIGH;
+	SET_ROW_1_HIGH;
+    SET_ROW_0_LOW;
+    check = Check_Keypad_Column(0);
+    if(check)
+    	return check;
+
+    /*Set ROW_1 LOW and scan all the columns*/
+    SET_ROW_0_HIGH;
+	SET_ROW_2_HIGH;
+	SET_ROW_3_HIGH;
+    SET_ROW_1_LOW;
+    check = Check_Keypad_Column(1);
+    if(check)
+    	return check;
+    /*Set ROW_2 LOW and scan all the columns*/
+    SET_ROW_0_HIGH;
+	SET_ROW_1_HIGH;
+	SET_ROW_3_HIGH;
+    SET_ROW_2_LOW;
+    check = Check_Keypad_Column(2);
+    if(check)
+    	return check;
+    /*Set ROW_3 LOW and scan all the columns*/
+    SET_ROW_0_HIGH;
+	SET_ROW_1_HIGH;
+	SET_ROW_2_HIGH;
+    SET_ROW_3_LOW;
+    check = Check_Keypad_Column(3);
+    if(check)
+    	return check;
+    /*Key not pressed */
+    return KEYPAD_NOT_PRESSED;
+}
