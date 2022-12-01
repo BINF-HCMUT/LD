@@ -1,12 +1,20 @@
 #include "Cal_logic.h"
 #include "LCD.h"
+#include <stdlib.h>
+#include <stdlib.h>
+#include <stdio.h>
 
-char final[32];
+char final[16];
 
-int logicCal(char str1[16], char str2[16], char cal, int i, int j)
+int logicCal(char str1[16], char str2[16], char cal, int check2, int i, int j)
 {
 	int num1 = 0, num2 = 0, count1 = 0, count2 = 0, result1 = 0, check1 = 0;
 	float result2 = 0;
+
+	if (check2 == 1)
+	{
+		for (int l = 0; l < 16; l++) final[l] = '\0';
+	}
 
 	while (count1 < i)
 	{
@@ -47,7 +55,7 @@ int logicCal(char str1[16], char str2[16], char cal, int i, int j)
 
 	if (cal == '\0')
 	{
-		printf("error");
+		LCD_Send_String("error");
 	    return 0;
 	}
 
@@ -65,7 +73,7 @@ int logicCal(char str1[16], char str2[16], char cal, int i, int j)
 	    case '/':
 	        if(num2 == 0)
 	        {
-	        	printf("error");
+	        	LCD_Send_String("error");
 	        	return 0;
 	        }
 	        else
@@ -84,7 +92,7 @@ int logicCal(char str1[16], char str2[16], char cal, int i, int j)
 		sprintf(final, "%f", result2);
 	}
 	LCD_Put_Cur(1,0);
-	LCD_Send_Data(final);
+	for(int i = 0; i < 16; i++) LCD_Send_Data(final[i]);
 	return 0;
 }
 
