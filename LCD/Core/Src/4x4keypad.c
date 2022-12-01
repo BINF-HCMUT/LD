@@ -16,6 +16,7 @@ const char KEY[16]={
 		'1','2','3','-',
 		'#','0','=','+'
 };
+char operator;
 
 unsigned char check_row(unsigned char col){
 	if(HAL_GPIO_ReadPin(GPIOB, R0_Pin) == 0 )	return KEY[col];
@@ -51,10 +52,15 @@ unsigned char KEYPAD_Read(void){
 	return 0xFF;
 }
 
-void Key_Read(){
+void Key_Read(int check){
 	char text = KEYPAD_Read();
-	if(text != 0xFF){
+	if(text != 0xFF)
+	{
 		text = KEYPAD_Read();
-		if(text != 0xFF)	LCD_add_To_String(text);
+		if(text != 0xFF)
+		{
+			LCD_add_To_String(text);
+		}
+
 	}
 }

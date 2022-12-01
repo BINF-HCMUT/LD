@@ -6,16 +6,92 @@
  */
 
 
-#include"LCD.h"
+#include "LCD.h"
+#include "Cal_logic.h"
+char operator;
+char operand1[16];
+char operand2[16];
 char operand[16];
+int check = 0, i = 0, j = 0;
 
-void LCD_add_To_String(char data){
-	for(int i = 0;i<15;i++){
+void LCD_add_To_String(char data)
+{
+	if (operator != '\0')
+	{
+		if (data == '+' || data == 'x' || data == '/')
+		{
+			operator = data;
+			return;
+		}
+	}
+	if (data >= '0' && data <= '9')
+	{
+		if (check == 0)
+		{
+			operand1[i] = data;
+			i++;
+		}
+		else
+		{
+			operand2[j] = data;
+			j++;
+		}
+	}
+	else if (data == '+' || data == '-' || data == 'x' || data == '/')
+	{
+		if (i == 0)
+		{
+			operand1[i] = data;
+			i++;
+		}
+		else if (check == 0)
+		{
+			operator = data;
+			check = 1;
+		}
+		else
+		{
+			operand2[j] = data;
+		    j++;
+		}
+	}
+	else
+	{
+		printf("error");
+        return;
+    }
+
+	if (data == '#')
+	{
+		for (int l = 0; l < 16; l++)
+		{
+			operand1[l] = '\0';
+			operand2[l] = '\0';
+		}
+		operator = '\0';
+		LCD_Clear();
+		return;
+	}
+
+	else if (data == '=')
+	{
+		logicCal(operand1, operand2, operator, i, j);
+		return;
+	}
+
+	else if (data <= '0' && data >= '9')
+	{
+		LCD_Put_Cur(1, 11);
+		if (operator != '\0') LCD_Send_String("error");
+	}
+
+	for(int i = 0; i < 15; i++)
+	{
 		operand[i] = operand[i+1];
 	}
 	operand[15] = data;
 	LCD_Put_Cur(0,0);
-	for(int i = 0; i<16;i++)	LCD_Send_Data(operand[i]);
+	for(int i = 0; i < 16; i++) LCD_Send_Data(operand[i]);
 }
 
 void send8bitstoLCD(char vee){
