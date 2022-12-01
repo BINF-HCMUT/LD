@@ -12,7 +12,7 @@ char operator;
 char operand1[16];
 char operand2[16];
 char operand[16];
-int check = 0, check1 = 0, i = 0, j = 0;
+int check = 0, check1 = 0, i = 0, j = 0, temp = 0;
 
 void LCD_add_To_String(char data)
 {
@@ -25,13 +25,14 @@ void LCD_add_To_String(char data)
 			operand[l] = '\0';
 		}
 		operator = '\0';
-		i = 0; j = 0; check1 = 1;
+		i = 0; j = 0;
+		check =  0; check1 = 1;
 		LCD_Clear();
 		return;
 	}
 	else if (data == '=')
 	{
-		logicCal(operand1, operand2, operator, check1, i, j);
+		temp = logicCal(operand1, operand2, operator, check1, i, j);
 		check1 = 0;
 		return;
 	}

@@ -93,6 +93,6 @@ int logicCal(char str1[16], char str2[16], char cal, int check2, int i, int j)
 	}
 	LCD_Put_Cur(1,0);
 	for(int i = 0; i < 16; i++) LCD_Send_Data(final[i]);
-	return 0;
+	return 1;
 }
 
