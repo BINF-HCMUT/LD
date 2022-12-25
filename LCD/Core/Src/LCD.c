@@ -12,11 +12,49 @@ char operator;
 char operand1[16];
 char operand2[16];
 char operand[16];
-int check = 0, check1 = 0, i = 0, j = 0, temp = 0;
+int check = 0, check1 = 0, checkdiv = 0;
+int i = 0, j = 0, temp = 0;
+
+void ClearData()
+{
+	for (int l = 0; l < 16; l++)
+	{
+		operand1[l] = '\0';
+		operand2[l] = '\0';
+		operand[l] = '\0';
+	}
+	operator = '\0';
+	i = 0; j = 0;
+	check =  0; check1 = 1;
+}
 
 void LCD_add_To_String(char data)
 {
+	if (temp == 0 && check1 == 0)
+	{
+		ClearData();
+		LCD_Clear();
+	}
 	if (data == '#')
+	{
+		ClearData();
+		checkdiv = 0;
+		LCD_Clear();
+		return;
+	}
+	else if (data == '=')
+	{
+		if ((i + j + 1) > 16)
+		{
+			ClearData();
+			LCD_Clear();
+			return;
+		}
+		temp = logicCal(operand1, operand2, operator, check1, temp, checkdiv, i, j);
+		check1 = 0;
+		return;
+	}
+	else if (temp == 1 && check1 == 0)
 	{
 		for (int l = 0; l < 16; l++)
 		{
@@ -25,28 +63,37 @@ void LCD_add_To_String(char data)
 			operand[l] = '\0';
 		}
 		operator = '\0';
-		i = 0; j = 0;
-		check =  0; check1 = 1;
-		LCD_Clear();
+		int tmpcount = 0;
+		for(int z = 0; z < 16; z++)
+		{
+			LCD_Put_Cur(0, tmpcount);
+			LCD_Send_Data('\0');
+			tmpcount++;
+		}
+
+		for(int z = 0; z < 15; z++)
+		{
+			operand[z] = operand[z+1];
+		}
+		operand[15] = data;
+		LCD_Put_Cur(0,0);
+		for(int z = 0; z < 16; z++) LCD_Send_Data(operand[z]);
+
+		operator = data;
+		if (operator == '/') checkdiv++;
+		i = 1; j = 0;
+		temp = 2; check = 1;
+
 		return;
 	}
-	else if (data == '=')
-	{
-		temp = logicCal(operand1, operand2, operator, check1, i, j);
-		check1 = 0;
-		return;
-	}
-	else if (data <= '0' && data >= '9')
-	{
-		LCD_Put_Cur(1, 11);
-		if (operator != '\0') LCD_Send_String("error");
-	}
+
 
 	if (operator != '\0')
 	{
 		if (data == '+' || data == 'x' || data == '/')
 		{
 			operator = data;
+			if (data == '/') checkdiv++;
 			return;
 		}
 	}
@@ -74,6 +121,7 @@ void LCD_add_To_String(char data)
 		else if (check == 0)
 		{
 			operator = data;
+			if (data == '/') checkdiv++;
 			check = 1;
 		}
 		else
@@ -84,6 +132,14 @@ void LCD_add_To_String(char data)
 	}
 	else
 	{
+		int tmpcount = 0;
+		for(int z = 0; z < 16; z++)
+		{
+			LCD_Put_Cur(1, tmpcount);
+			LCD_Send_Data('\0');
+			tmpcount++;
+		}
+		LCD_Put_Cur(1, 11);
 		LCD_Send_String("error");
         return;
     }
