@@ -102,11 +102,8 @@ int main(void)
   while (1)
   {
     /* USER CODE END WHILE */
-//	  Key_Read();
-//	  HAL_Delay(300);
-	  LCD_Send_String("abcsdad");
-	  HAL_Delay(1000);
-	  LCD_Clear();
+	  Key_Read();
+	  HAL_Delay(300);
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
