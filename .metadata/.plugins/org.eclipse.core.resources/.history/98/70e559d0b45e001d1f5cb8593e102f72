@@ -1,0 +1,17 @@
+/*
+ * 4x4keypad.h
+ *
+ *  Created on: Nov 7, 2022
+ *      Author: admin
+ */
+
+#ifndef INC_4X4KEYPAD_H_
+#define INC_4X4KEYPAD_H_
+
+#include"main.h"
+
+uint8_t keyPush();
+void checkCOL(uint8_t col);
+uint8_t getKey();
+
+#endif /* INC_4X4KEYPAD_H_ */
