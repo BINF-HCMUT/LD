@@ -177,6 +177,7 @@ void send8bitstoLCD(char vee){
 }
 
 void LCD_Init(){
+	HAL_Delay(20);
 	LCD_Send_CMD(0x38);		/* Initialization of 16X2 LCD in 8bit mode */
 	LCD_Send_CMD(0x0C);		/* Display ON Cursor OFF */
 	LCD_Send_CMD(0x06);		/* Auto Increment cursor */
@@ -185,6 +186,7 @@ void LCD_Init(){
 }
 
 void LCD_Send_CMD(char cmd){
+	HAL_Delay(20);
 	HAL_GPIO_WritePin(GPIOA, RS_Pin, 0); // RS = 0 nean send command
 	send8bitstoLCD(cmd);
 	HAL_GPIO_WritePin(GPIOA, EN_Pin, 0);
@@ -192,6 +194,7 @@ void LCD_Send_CMD(char cmd){
 }
 
 void LCD_Send_Data(char data){
+	HAL_Delay(20);
 	HAL_GPIO_WritePin(GPIOA, RS_Pin, 1); // RS = 1 send data
 	send8bitstoLCD(data);
 	HAL_GPIO_WritePin(GPIOA, EN_Pin, 0);
